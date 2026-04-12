@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        /* ── Scroll Reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stagger delays for children */
+        .stagger > *:nth-child(1) { transition-delay: 0ms; }
+        .stagger > *:nth-child(2) { transition-delay: 120ms; }
+        .stagger > *:nth-child(3) { transition-delay: 240ms; }
+        .stagger > *:nth-child(4) { transition-delay: 360ms; }
+
+        /* ── Typewriter cursor blink ── */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .animate-blink {
+            animation: blink 0.7s step-end infinite;
+        }
+
+        /* ── Hero float animation ── */
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        .hero-float {
+            animation: heroFloat 5s ease-in-out infinite;
+        }
+
+        /* ── Subtle gold shimmer on CTA buttons ── */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .btn-shimmer {
+            background-size: 200% auto;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* ── Counter glow pulse ── */
+        @keyframes glowPulse {
+            0%, 100% { text-shadow: 0 0 0px transparent; }
+            50% { text-shadow: 0 0 20px rgba(254, 166, 25, 0.3); }
+        }
+        .counter-glow {
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        /* ── Process step line draw ── */
+        .progress-line {
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .progress-line.visible {
+            transform: scaleX(1);
+        }
+
+        /* ── FAQ accordion ── */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+        .faq-answer.open {
+            max-height: 200px;
+            opacity: 1;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* ── Smooth card tilt on hover ── */
+        .card-hover {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 8, 30, 0.08);
+        }
+
+        /* ── Navbar shrink on scroll ── */
+        header { transition: all 0.3s ease; }
+        header.scrolled { box-shadow: 0 4px 30px rgba(0, 8, 30, 0.08); }
+        header.scrolled nav { height: 3.5rem !important; }
+        @media (min-width: 640px) {
+            header.scrolled nav { height: 4rem !important; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#ffffff",
+                        "secondary": "#855300",
+                        "surface-dim": "#d8dadd",
+                        "background": "#f7f9fc",
+                        "surface-bright": "#f7f9fc",
+                        "on-surface": "#191c1e",
+                        "outline": "#75777f",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "primary": "#00081e",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-primary": "#b4c6f4",
+                        "surface-container-highest": "#e0e3e6",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "secondary-fixed": "#ffddb8",
+                        "surface": "#f7f9fc",
+                        "surface-container-high": "#e6e8eb",
+                        "surface-variant": "#e0e3e6",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary-fixed": "#2a1700",
+                        "on-secondary-container": "#684000",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c5c6cf",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#b4c6f4",
+                        "primary-container": "#0a1f44",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-surface-variant": "#44464e",
+                        "surface-tint": "#4c5e86",
+                        "on-primary-fixed-variant": "#34466d",
+                        "inverse-on-surface": "#eff1f4",
+                        "on-tertiary-fixed": "#131b2e",
+                        "secondary-container": "#fea619",
+                        "tertiary-container": "#182033",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#02081b",
+                        "surface-container": "#eceef1",
+                        "on-primary-container": "#7687b2",
+                        "primary-fixed": "#d9e2ff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f2f4f7",
+                        "on-primary-fixed": "#041a3f",
+                        "on-tertiary-container": "#80879f",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Header Section -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<nav class="flex justify-between items-center px-4 sm:px-8 py-0 max-w-7xl mx-auto h-20 sm:h-24">
+<div class="flex items-center h-full">
+<img alt="Hanse Nord Logo" class="w-auto object-contain" src="logo.png" style="height:70px; max-height:70px;"/><span class="ml-3 sm:ml-4 font-headline font-black text-primary text-sm sm:text-lg hidden sm:block">Hanse Nord <span class="text-secondary">Sachverständigen Büro</span></span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#leistungen" style="">Leistungen</a>
+<a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#über-uns" style="">Über uns</a>
+<a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#ablauf" style="">Ablauf</a>
+<a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#faq" style="">FAQ</a>
+<a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#kontakt" style="">Kontakt</a>
+</div>
+<div class="flex items-center gap-4">
+<a class="hidden lg:block font-manrope font-bold text-primary" href="tel:01739990555" style="">0173 999 05 55</a>
+<a href="tel:01739990555" class="bg-gradient-to-r from-secondary to-secondary-container text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-bold text-sm sm:text-base shadow-lg shadow-secondary/20 hover:scale-105 active:scale-95 transition-all inline-block" style="">
+                Soforthilfe
+            </a>
+</div>
+</nav>
+</header>
+<main class="pt-20 sm:pt-24">
+<!-- Hero Section -->
+<section class="px-4 sm:px-8 py-12 md:py-24 max-w-7xl mx-auto">
+<div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full">
+<span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+<span class="text-xs font-bold uppercase tracking-widest font-label text-on-surface-variant" style="">24/7 Notfall-Service Hamburg</span>
+</div>
+<h1 class="text-3xl sm:text-5xl md:text-6xl font-black font-headline text-primary leading-[1.1] tracking-tight" style="">
+                    Unfall gehabt in Hamburg? <br/>
+<span class="text-secondary" id="typewriter" style=""></span><span id="cursor" class="text-secondary animate-blink">|</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-lg leading-relaxed" style="">
+                    Unabhängiges Kfz-Gutachten vom zertifizierten Sachverständigen – für Unfallgeschädigte <span class="font-bold text-primary underline decoration-secondary decoration-2 underline-offset-4" style="">100% kostenlos</span>.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<a href="tel:01739990555" class="bg-gradient-to-r from-secondary to-secondary-container text-on-secondary px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 shadow-xl shadow-secondary/30" style="">
+<span class="material-symbols-outlined" data-icon="call" style='font-variation-settings: "FILL" 1;'>call</span>
+                        Kostenlos anrufen
+                    </a>
+<a href="mailto:info@hanse-nord-svb.de?subject=Schadensmeldung" class="bg-surface-container-highest text-primary px-8 py-4 rounded-xl font-bold border-2 border-transparent hover:border-outline-variant transition-all text-center" style="">
+                        Schaden online melden
+                    </a>
+</div>
+<div class="flex flex-wrap gap-6 pt-4 border-t border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="star" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="font-bold" style="">4,9/5 Google</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="verified" style='font-variation-settings: "FILL" 1;'>verified</span>
+<span class="font-bold" style="">Kfz-Meister</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="event_available" style='font-variation-settings: "FILL" 1;'>event_available</span>
+<span class="font-bold" style="">7 Tage erreichbar</span>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-secondary/5 rounded-full blur-3xl -z-10"></div>
+<img alt="Kfz Gutachter bei der Arbeit" class="rounded-2xl md:rounded-[2rem] shadow-2xl object-cover h-[280px] sm:h-[400px] md:h-[500px] w-full border-4 md:border-8 border-white hero-float" src="hero.jpg" style=""/>
+</div>
+</div>
+</section>
+<!-- USP Bar -->
+<section class="bg-primary-container py-10 md:py-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 stagger">
+<div class="bg-surface/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-surface/10 transition-colors reveal card-hover">
+<span class="material-symbols-outlined text-secondary-container mb-4 text-4xl" data-icon="payments" style="">payments</span>
+<h3 class="text-white font-bold text-xl mb-2 font-headline" style="">100% Kostenlos</h3>
+<p class="text-on-primary-container text-sm" style="">Für Geschädigte trägt die Versicherung alle Kosten des Gutachtens.</p>
+</div>
+<div class="bg-surface/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-surface/10 transition-colors reveal card-hover">
+<span class="material-symbols-outlined text-secondary-container mb-4 text-4xl" data-icon="calendar_today" style="">calendar_today</span>
+<h3 class="text-white font-bold text-xl mb-2 font-headline" style="">Termin heute</h3>
+<p class="text-on-primary-container text-sm" style="">Wir vereinbaren noch am selben Tag einen Termin.</p>
+</div>
+<div class="bg-surface/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-surface/10 transition-colors reveal card-hover">
+<span class="material-symbols-outlined text-secondary-container mb-4 text-4xl" data-icon="balance" style="">balance</span>
+<h3 class="text-white font-bold text-xl mb-2 font-headline" style=""><strong>Alles aus einer Hand</strong></h3>
+<p class="text-on-primary-container text-sm" style="">Neben unserem Gutachten vermitteln wir Ihnen auf Wunsch einen spezialisierten Rechtsanwalt, der Ihre Interessen gegenüber Versicherungen vertritt.</p>
+</div>
+<div class="bg-surface/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-surface/10 transition-colors reveal card-hover">
+<span class="material-symbols-outlined text-secondary-container mb-4 text-4xl" data-icon="location_on" style="">location_on</span>
+<h3 class="text-white font-bold text-xl mb-2 font-headline" style=""><h3 class="text-white font-bold text-xl mb-2 font-headline cursor-text" data-stitch-added-classes="cursor-text" spellcheck="false" style="--tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(255, 255, 255); outline: none !important;">Unabhängig</h3></h3>
+<p class="text-on-primary-container text-sm" style="">Wir arbeiten nicht für Versicherungen, sondern exklusiv für Sie.</p>
+</div>
+</div>
+</section>
+<!-- Services -->
+<section class="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto" id="leistungen">
+<div class="text-center mb-16 space-y-4">
+<h2 class="text-2xl sm:text-4xl md:text-5xl font-black font-headline text-primary tracking-tight" style="">Unsere Leistungen</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto" style="">Kompetente Unterstützung für jede Situation. Vom Parkrempler bis zum wertvollen Oldtimer.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 stagger">
+<!-- Unfallgutachten -->
+<div class="group bg-surface-container-low p-10 rounded-[2rem] hover:bg-surface-container transition-all cursor-pointer reveal card-hover">
+<div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="car_crash" style="">car_crash</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4 font-headline" style="">Unfallgutachten</h3>
+<p class="text-on-surface-variant mb-6" style="">Detaillierte Schadensaufnahme zur vollständigen Beweissicherung und Regulierung.</p>
+<span class="text-secondary font-bold flex items-center gap-2" style="">Mehr erfahren <span class="material-symbols-outlined" data-icon="arrow_forward" style="">arrow_forward</span></span>
+</div>
+<!-- Wertgutachten -->
+<div class="group bg-surface-container-low p-10 rounded-[2rem] hover:bg-surface-container transition-all cursor-pointer reveal card-hover">
+<div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="request_quote" style="">request_quote</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4 font-headline" style="">Wertgutachten</h3>
+<p class="text-on-surface-variant mb-6" style="">Ermittlung des aktuellen Marktwertes für Verkauf, Versicherung oder Finanzamt.</p>
+<span class="text-secondary font-bold flex items-center gap-2" style="">Mehr erfahren <span class="material-symbols-outlined" data-icon="arrow_forward" style="">arrow_forward</span></span>
+</div>
+<!-- Oldtimer -->
+<div class="group bg-surface-container-low p-10 rounded-[2rem] hover:bg-surface-container transition-all cursor-pointer reveal card-hover">
+<div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="minor_crash" style="">minor_crash</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4 font-headline" style="">Oldtimer Check</h3>
+<p class="text-on-surface-variant mb-6" style="">Spezialisierte Bewertung von historischen Fahrzeugen inklusive Zustandsnote.</p>
+<span class="text-secondary font-bold flex items-center gap-2" style="">Mehr erfahren <span class="material-symbols-outlined" data-icon="arrow_forward" style="">arrow_forward</span></span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+<!-- Reparaturbestätigung -->
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/10 shadow-sm flex items-start gap-6 reveal card-hover">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="verified" style="">verified</span>
+<div>
+<h4 class="font-bold text-primary mb-2" style="">Reparaturbestätigung</h4>
+<p class="text-sm text-on-surface-variant" style="">Nachweis über die fachgerechte Instandsetzung Ihres Fahrzeugs.</p>
+</div>
+</div>
+<!-- Kurzgutachten -->
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/10 shadow-sm flex items-start gap-6 reveal card-hover">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="history_edu" style="">history_edu</span>
+<div>
+<h4 class="font-bold text-primary mb-2" style="">Kurzgutachten</h4>
+<p class="text-sm text-on-surface-variant" style="">Ideal bei Bagatellschäden (unter 750€) zur schnellen Dokumentation.</p>
+</div>
+</div>
+<!-- Beweissicherung -->
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/10 shadow-sm flex items-start gap-6 reveal card-hover">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="camera_enhance" style="">camera_enhance</span>
+<div>
+<h4 class="font-bold text-primary mb-2" style="">Beweissicherung</h4>
+<p class="text-sm text-on-surface-variant" style="">Fotografische und technische Sicherung des Schadenshergangs.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Process Step -->
+<section class="py-16 md:py-24 bg-surface-container-low overflow-hidden" id="ablauf">
+<div class="max-w-7xl mx-auto px-4 sm:px-8">
+<div class="text-center mb-20 space-y-4">
+<h2 class="text-2xl sm:text-4xl md:text-5xl font-black font-headline text-primary tracking-tight" style="">Ihr Weg zum Gutachten</h2>
+<p class="text-on-surface-variant" style="">In nur vier einfachen Schritten zu Ihrer Entschädigung.</p>
+</div>
+<div class="relative">
+<!-- Progress Line -->
+<div class="hidden md:block absolute top-10 left-0 w-full h-1 bg-gradient-to-r from-secondary to-secondary-container z-0 progress-line"></div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 relative z-10 stagger">
+<div class="space-y-6 text-center reveal">
+<div class="relative">
+<div class="w-20 h-20 bg-secondary text-white rounded-full mx-auto flex items-center justify-center text-3xl font-black shadow-xl shadow-secondary/20 border-8 border-surface-container-low transition-all duration-300 cursor-pointer hover:scale-110" style="">01</div>
+</div>
+<h4 class="text-2xl font-bold text-primary font-headline" style="">Anrufen</h4>
+<p class="text-on-surface-variant px-4" style="">Kurzes Telefonat zur ersten Einschätzung des Schadens.</p>
+</div>
+<div class="space-y-6 text-center reveal">
+<div class="relative">
+<div class="w-20 h-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full mx-auto flex items-center justify-center text-3xl font-black shadow-xl border-8 border-surface-container-low transition-all duration-300 cursor-pointer hover:shadow-secondary/30 hover:shadow-xl hover:scale-110" style="">02</div>
+</div>
+<h4 class="text-2xl font-bold text-primary font-headline" style="">Terminvereinbarung</h4>
+<p class="text-on-surface-variant px-4" style="">Wir vereinbaren einen Termin und nehmen den Schaden penibel auf.</p>
+</div>
+<div class="space-y-6 text-center reveal">
+<div class="relative">
+<div class="w-20 h-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full mx-auto flex items-center justify-center text-3xl font-black shadow-xl border-8 border-surface-container-low transition-all duration-300 cursor-pointer hover:shadow-secondary/30 hover:shadow-xl hover:scale-110" style="">03</div>
+</div>
+<h4 class="text-2xl font-bold text-primary font-headline" style="">Erstellung</h4>
+<p class="text-on-surface-variant px-4" style="">Binnen 24-48 Stunden ist Ihr professionelles Gutachten fertig.</p>
+</div>
+<div class="space-y-6 text-center reveal">
+<div class="relative">
+<div class="w-20 h-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full mx-auto flex items-center justify-center text-3xl font-black shadow-xl border-8 border-surface-container-low transition-all duration-300 cursor-pointer hover:shadow-secondary/30 hover:shadow-xl hover:scale-110" style="">04</div>
+</div>
+<h4 class="text-2xl font-bold text-primary font-headline" style="">Regulierung</h4>
+<p class="text-on-surface-variant px-4" style="">Versand an die Versicherung – Sie lehnen sich entspannt zurück.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto" id="über-uns">
+<div class="grid md:grid-cols-2 gap-10 md:gap-20 items-center">
+<div class="relative reveal-left">
+<img alt="Hanse Nord Sachverständigenbüro" class="rounded-2xl md:rounded-[2.5rem] shadow-2xl h-[300px] sm:h-[450px] md:h-[600px] w-full object-cover" src="about.jpg" style=""/>
+</div>
+<div class="space-y-8 reveal-right">
+<h2 class="text-2xl sm:text-4xl md:text-5xl font-black font-headline text-primary leading-tight tracking-tight" style="">Warum Hanse Nord?</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed" style="">
+                    Mein Name ist <span class="font-bold text-primary" style="">Nurhak Mireh</span>. Als Kfz-Meister und zertifizierter Sachverständiger verbinde ich technisches Expertenwissen mit hanseatischer Zuverlässigkeit.
+                </p>
+<p class="text-on-surface-variant" style="">
+                    Unser Büro in Hamburg-Billstedt steht für absolute Transparenz. Wir sorgen dafür, dass Sie nach einem unverschuldeten Unfall nicht auf den Kosten sitzen bleiben und Ihr Schaden fair reguliert wird.
+                </p>
+<div class="grid gap-4 sm:gap-8 py-6 sm:py-8 border-y border-outline-variant/30 grid-cols-3"><div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>419+</div><div class="text-on-surface-variant text-xs font-bold">Erstellte Gutachten</div></div><div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>10+</div><div class="text-on-surface-variant text-xs font-bold">Jahre Erfahrung</div></div><div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>100%</div><div class="text-on-surface-variant text-xs font-bold">Zufriedene Kunden</div></div></div>
+<a href="#kontakt" class="bg-primary text-white px-6 py-3 rounded-xl font-bold inline-flex items-center justify-center gap-2 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 hover:bg-primary/90 transition-all" style="">Jetzt einen Termin vereinbaren <span class="material-symbols-outlined text-xl">calendar_today</span></a>
+</div>
+</div>
+</section>
+<!-- SEO Bar -->
+<section class="bg-surface-container-low py-10 md:py-16 px-4 sm:px-8">
+<div class="max-w-7xl mx-auto">
+<h3 class="text-xl sm:text-2xl font-bold text-primary mb-6 sm:mb-8 text-center font-headline" style="">Kfz-Gutachter in ganz Hamburg</h3>
+<div class="flex flex-wrap justify-center gap-4 text-sm font-medium text-on-surface-variant">
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Billstedt</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Wandsbek</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Bergedorf</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Altona</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Eimsbüttel</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Harburg</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Mitte</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Winterhude</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Eppendorf</span>
+<span class="bg-white px-4 py-2 rounded-full shadow-sm" style="">Blankenese</span>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 gap-6">
+<div class="space-y-4">
+<h2 class="text-4xl font-black font-headline text-primary tracking-tight" style="">Kundenstimmen</h2>
+<p class="text-on-surface-variant" style="">Das sagen unsere Kunden über unsere Arbeit auf Google.</p>
+</div>
+<div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border border-outline-variant/10">
+<div class="w-10 h-10 bg-black text-white rounded flex items-center justify-center font-black text-[10px]">Google</div>
+<div>
+<div class="flex text-secondary">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+</div>
+<p class="text-xs font-bold text-on-surface-variant" style="">4,9 von 5 Sternen</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 stagger">
+<div class="bg-white p-8 rounded-3xl shadow-sm border border-outline-variant/10 reveal card-hover">
+<div class="flex text-secondary mb-4">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+</div>
+<p class="text-on-surface leading-relaxed italic mb-6" style="">"Super schneller Service! Nurhak war innerhalb einer Stunde bei mir in Wandsbek. Das Gutachten war zwei Tage später fertig. Absolut empfehlenswert."</p>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary" style="">MH</div>
+<span class="font-bold" style="">Michael H.</span>
+</div>
+</div>
+<div class="bg-white p-8 rounded-3xl shadow-sm border border-outline-variant/10 reveal card-hover">
+<div class="flex text-secondary mb-4">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+</div>
+<p class="text-on-surface leading-relaxed italic mb-6" style="">"Sehr kompetente Beratung. Mir wurde alles genau erklärt und die Versicherung hat den Schaden ohne Murren beglichen. Vielen Dank!"</p>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary" style="">SL</div>
+<span class="font-bold" style="">Sabine L.</span>
+</div>
+</div>
+<div class="bg-white p-8 rounded-3xl shadow-sm border border-outline-variant/10 reveal card-hover">
+<div class="flex text-secondary mb-4">
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+<span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>star</span>
+</div>
+<p class="text-on-surface leading-relaxed italic mb-6" style="">"Professionell, freundlich und extrem schnell. So stellt man sich einen Kfz-Sachverständigen vor. 5 Sterne verdient!"</p>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center font-bold text-primary" style="">AK</div>
+<span class="font-bold" style="">Andreas K.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-16 md:py-24 bg-surface-container-low" id="faq">
+<div class="max-w-3xl mx-auto px-4 sm:px-8">
+<h2 class="text-2xl sm:text-4xl font-black font-headline text-primary mb-8 sm:mb-12 text-center" style="">Häufig gestellte Fragen</h2>
+<div class="space-y-4">
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-outline-variant/5 reveal card-hover faq-item cursor-pointer">
+<h4 class="font-bold text-lg flex justify-between items-center" style="">
+                        Was kostet ein Kfz-Gutachten für mich?
+                        <span class="material-symbols-outlined text-secondary faq-icon" style="">expand_more</span>
+</h4>
+<div class="faq-answer"><p class="text-on-surface-variant text-sm pt-3" style="">Bei einem unverschuldeten Unfall (Haftpflichtschaden) ist das Gutachten für Sie zu 100% kostenlos. Die Kosten trägt die Versicherung des Unfallgegners.</p></div>
+</div>
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-outline-variant/5 reveal card-hover faq-item cursor-pointer">
+<h4 class="font-bold text-lg flex justify-between items-center" style="">
+                        Wann ist das Gutachten fertig?
+                        <span class="material-symbols-outlined text-secondary faq-icon" style="">expand_more</span>
+</h4>
+<div class="faq-answer"><p class="text-on-surface-variant text-sm pt-3" style="">In der Regel erhalten Sie Ihr professionelles Gutachten innerhalb von 24 bis 48 Stunden nach der Besichtigung.</p></div>
+</div>
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-outline-variant/5 reveal card-hover faq-item cursor-pointer">
+<h4 class="font-bold text-lg flex justify-between items-center" style="">Darf ich den Sachverständigen frei wählen? Kommen Sie auch zu mir nach Hause?
+                        <span class="material-symbols-outlined text-secondary faq-icon" style="">expand_more</span>
+</h4>
+<div class="faq-answer"><p class="text-on-surface-variant text-sm pt-3" style="">Ja. Bei einem unverschuldeten Unfall haben Sie das gesetzliche Recht, einen unabhängigen Gutachter Ihrer Wahl zu beauftragen – die Versicherung darf Ihnen keinen vorschreiben.</p></div>
+</div>
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-outline-variant/5 reveal card-hover faq-item cursor-pointer">
+<h4 class="font-bold text-lg flex justify-between items-center" style="">
+                        Muss ich die Versicherung selbst informieren?
+                        <span class="material-symbols-outlined text-secondary faq-icon" style="">expand_more</span>
+</h4>
+<div class="faq-answer"><p class="text-on-surface-variant text-sm pt-3" style="">Nein, auf Wunsch übernehmen wir den kompletten Versand der Unterlagen an die zuständige Versicherung und auf Wunsch auch an unseren Partneranwalt.</p></div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Banner -->
+<section class="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+<div class="bg-primary-container rounded-2xl sm:rounded-[3rem] p-8 sm:p-12 md:p-20 text-center relative overflow-hidden reveal-scale">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="relative z-10 space-y-8">
+<h2 class="text-2xl sm:text-4xl md:text-5xl font-black font-headline text-white tracking-tight" style="">Schnelle Hilfe nach Ihrem Unfall?</h2>
+<p class="text-on-primary-container text-lg max-w-xl mx-auto" style="">Rufen Sie uns jetzt an für eine kostenlose Erstberatung. Wir sind 24/7 für Sie erreichbar.</p>
+<a href="#kontakt" class="bg-gradient-to-r from-secondary to-secondary-container text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-xl shadow-2xl shadow-secondary/20 hover:scale-105 active:scale-95 transition-all inline-block" style="">
+                    Jetzt kostenlos beraten lassen
+                </a>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto" id="kontakt">
+<div class="grid md:grid-cols-2 gap-10 md:gap-16">
+<div class="space-y-12">
+<div>
+<h2 class="text-2xl sm:text-4xl font-black font-headline text-primary mb-6" style="">Kontaktieren Sie uns</h2>
+<p class="text-on-surface-variant" style="">Haben Sie Fragen oder möchten direkt einen Termin vereinbaren? Nutzen Sie unser Formular oder rufen Sie uns an.</p>
+</div>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="w-14 h-14 bg-surface-container flex items-center justify-center rounded-2xl">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="location_on" style="">location_on</span>
+</div>
+<div>
+<h4 class="font-bold text-primary" style="">Adresse</h4>
+<a href="https://maps.google.com/?q=Stegerwaldring+12,+22119+Hamburg" target="_blank" class="text-on-surface-variant hover:text-secondary transition-colors underline-offset-2 hover:underline" style="">Stegerwaldring 12, 22119 Hamburg</a>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="w-14 h-14 bg-surface-container flex items-center justify-center rounded-2xl">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="schedule" style="">schedule</span>
+</div>
+<div>
+<h4 class="font-bold text-primary" style="">Öffnungszeiten</h4>
+<p class="text-on-surface-variant" style="">Mo - So: 08:00 - 20:00 Uhr</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="w-14 h-14 bg-surface-container flex items-center justify-center rounded-2xl">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="phone_in_talk" style="">phone_in_talk</span>
+</div>
+<div>
+<h4 class="font-bold text-primary" style="">Telefon &amp; E-Mail</h4>
+<a href="tel:01739990555" class="text-on-surface-variant hover:text-secondary transition-colors underline-offset-2 hover:underline block" style="">0173 999 05 55</a>
+<a href="mailto:info@hanse-nord-svb.de" class="text-on-surface-variant hover:text-secondary transition-colors underline-offset-2 hover:underline block" style="">info@hanse-nord-svb.de</a>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 sm:p-10 rounded-2xl sm:rounded-[2.5rem] shadow-xl border border-outline-variant/10">
+<form id="kontaktForm" class="space-y-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label" style="">Name</label>
+<input id="formName" class="w-full bg-surface-container border-none rounded-xl p-4 focus:ring-2 focus:ring-primary" placeholder="Max Mustermann" type="text" required/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label" style="">Telefon</label>
+<input id="formTel" class="w-full bg-surface-container border-none rounded-xl p-4 focus:ring-2 focus:ring-primary" placeholder="0173 / ..." type="tel" required/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label" style="">E-Mail</label>
+<input id="formEmail" class="w-full bg-surface-container border-none rounded-xl p-4 focus:ring-2 focus:ring-primary" placeholder="beispiel@mail.de" type="email" required/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label" style="">Anliegen</label>
+<select id="formAnliegen" class="w-full bg-surface-container border-none rounded-xl p-4 focus:ring-2 focus:ring-primary">
+<option>Unfallgutachten</option>
+<option>Wertgutachten</option>
+<option>Sonstiges</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant font-label" style="">Nachricht</label>
+<textarea id="formNachricht" class="w-full bg-surface-container border-none rounded-xl p-4 focus:ring-2 focus:ring-primary" placeholder="Kurze Beschreibung des Schadens..." rows="4" required></textarea>
+</div>
+<button type="submit" class="w-full bg-primary text-white py-5 rounded-xl font-bold text-lg hover:bg-primary/95 transition-all shadow-lg shadow-primary/20" style="">
+                        Anfrage senden
+                    </button>
+</form>
+<script>
+document.getElementById('kontaktForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var name = document.getElementById('formName').value;
+    var tel = document.getElementById('formTel').value;
+    var email = document.getElementById('formEmail').value;
+    var anliegen = document.getElementById('formAnliegen').value;
+    var nachricht = document.getElementById('formNachricht').value;
+    var subject = encodeURIComponent('Neue Anfrage: ' + anliegen + ' von ' + name);
+    var body = encodeURIComponent(
+        'Name: ' + name + '\n' +
+        'Telefon: ' + tel + '\n' +
+        'E-Mail: ' + email + '\n' +
+        'Anliegen: ' + anliegen + '\n\n' +
+        'Nachricht:\n' + nachricht
+    );
+    window.location.href = 'mailto:info@hanse-nord-svb.de?subject=' + subject + '&body=' + body;
+});
+</script>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-16 pb-24 md:pb-8 bg-primary-container dark:bg-black">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 px-4 sm:px-8 max-w-7xl mx-auto">
+<div class="space-y-6 col-span-2 md:col-span-1">
+<div class="flex items-center h-16">
+<img alt="Hanse Nord Logo Footer" class="h-full w-auto object-contain bg-white rounded-lg p-1" src="logo.png" style=""/>
+</div>
+<p class="text-surface-variant text-sm leading-relaxed" style="">
+                Ihr zertifizierter Partner für unabhängige Kfz-Gutachten in Hamburg. Schnell, professionell und zuverlässig.
+            </p>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-headline" style="">Quick Links</h4>
+<ul class="space-y-4 text-outline-variant text-sm">
+<li class="" style=""><a class="hover:text-white transition-colors" href="#" style="">Startseite</a></li>
+<li class="" style=""><a class="hover:text-white transition-colors" href="#leistungen" style="">Leistungen</a></li>
+<li class="" style=""><a class="hover:text-white transition-colors" href="#über-uns" style="">Über uns</a></li>
+<li class="" style=""><a class="hover:text-white transition-colors" href="#kontakt" style="">Kontakt</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-headline" style="">Rechtliches</h4>
+<ul class="space-y-4 text-outline-variant text-sm">
+<li class="" style=""><a class="hover:text-white transition-colors" href="impressum.html" style="">Impressum</a></li>
+<li class="" style=""><a class="hover:text-white transition-colors" href="datenschutz.html" style="">Datenschutz</a></li>
+<li class="" style=""><a class="hover:text-white transition-colors" href="#" style="">AGB</a></li>
+<li class="" style=""><a class="hover:text-white transition-colors" href="#" style="">Cookie-Einstellungen</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6 font-headline" style="">Kontakt</h4>
+<ul class="space-y-4 text-outline-variant text-sm">
+<li class="flex items-center gap-3" style=""><span class="material-symbols-outlined text-secondary-container" data-icon="phone" style="">phone</span><a href="tel:01739990555" class="hover:text-white transition-colors">0173 999 05 55</a></li>
+<li class="flex items-center gap-3" style=""><span class="material-symbols-outlined text-secondary-container" data-icon="mail" style="">mail</span><a href="mailto:info@hanse-nord-svb.de" class="hover:text-white transition-colors">info@hanse-nord-svb.de</a></li>
+<li class="flex items-center gap-3" style=""><span class="material-symbols-outlined text-secondary-container" data-icon="map" style="">map</span><a href="https://maps.google.com/?q=Stegerwaldring+12,+22119+Hamburg" target="_blank" class="hover:text-white transition-colors">Hamburg, Deutschland</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-4 sm:px-8 mt-10 md:mt-16 pt-8 border-t border-white/10 text-center">
+<p class="text-outline-variant text-sm" style="">© 2026 Hanse Nord Sachverständigenbüro. Alle Rechte vorbehalten.</p>
+</div>
+</footer>
+<!-- Mobile Bottom NavBar -->
+<div class="fixed bottom-0 left-0 w-full z-50 md:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
+<a class="flex flex-row items-center justify-center gap-3 py-4 bg-gradient-to-r from-secondary to-secondary-container text-on-primary font-manrope font-extrabold uppercase tracking-widest text-xs animate-pulse" href="tel:01739990555" style="">
+<span class="material-symbols-outlined" data-icon="call" style='font-variation-settings: "FILL" 1;'>call</span>
+        Soforthilfe anrufen
+    </a>
+</div>
+
+<script>
+// ── Typewriter Effect ──
+(function() {
+    var text = 'Wir sind an 7 Tagen die Woche für Sie da.';
+    var el = document.getElementById('typewriter');
+    var i = 0;
+    function type() {
+        if (i <= text.length) {
+            el.textContent = text.slice(0, i);
+            i++;
+            setTimeout(type, 60);
+        }
+    }
+    setTimeout(type, 800);
+})();
+
+// ── Scroll Reveal Observer ──
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .progress-line').forEach(el => {
+    revealObserver.observe(el);
+});
+
+// ── Animated Counter ──
+function animateCounter(el) {
+    const text = el.textContent.trim();
+    const match = text.match(/^(\d+)/);
+    if (!match) return;
+    const target = parseInt(match[1]);
+    const suffix = text.replace(match[1], '');
+    const duration = 2000;
+    const start = performance.now();
+    function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(target * eased) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.counted) {
+            entry.target.dataset.counted = 'true';
+            animateCounter(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
+
+// ── FAQ Accordion ──
+document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('.faq-icon');
+        const isOpen = answer.classList.contains('open');
+        // Close all others
+        document.querySelectorAll('.faq-answer.open').forEach(a => a.classList.remove('open'));
+        document.querySelectorAll('.faq-icon.rotated').forEach(i => i.classList.remove('rotated'));
+        // Toggle current
+        if (!isOpen) {
+            answer.classList.add('open');
+            icon.classList.add('rotated');
+        }
+    });
+});
+
+// ── Navbar shrink on scroll ──
+const header = document.querySelector('header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+}, { passive: true });
+</script>
+</body></html>

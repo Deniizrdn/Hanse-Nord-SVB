@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Impressum – Hanse Nord Sachverständigenbüro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#00081e",
+                    "primary-container": "#0a1f44",
+                    "secondary": "#855300",
+                    "secondary-container": "#fea619",
+                    "surface": "#f7f9fc",
+                    "surface-container": "#eceef1",
+                    "surface-container-low": "#f2f4f7",
+                    "on-surface": "#191c1e",
+                    "on-surface-variant": "#44464e",
+                    "outline-variant": "#c5c6cf",
+                    "on-primary-container": "#7687b2",
+                },
+                fontFamily: {
+                    headline: ["Manrope"],
+                    body: ["Inter"],
+                },
+            },
+        },
+    }
+</script>
+</head>
+<body class="bg-white font-body text-on-surface">
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-sm">
+<nav class="flex justify-between items-center px-8 py-0 max-w-7xl mx-auto h-20">
+<a href="code.html" class="flex items-center h-full">
+    <img alt="Hanse Nord Logo" class="h-full w-auto py-1 object-contain" src="logo.png" style="max-height:72px;"/>
+    <span class="ml-4 font-headline font-black text-primary text-lg hidden sm:block">Hanse Nord <span class="text-secondary">Sachverständigen Büro</span></span>
+</a>
+<a href="code.html" class="font-headline font-bold text-primary hover:text-secondary transition-colors flex items-center gap-2">
+    <span class="material-symbols-outlined">arrow_back</span> Zurück zur Startseite
+</a>
+</nav>
+</header>
+
+<!-- Content -->
+<main class="pt-32 pb-24 px-8">
+<div class="max-w-3xl mx-auto">
+
+<h1 class="text-4xl md:text-5xl font-black font-headline text-primary mb-12 tracking-tight">Impressum</h1>
+
+<div class="space-y-10 text-on-surface leading-relaxed">
+
+<section>
+    <h2 class="text-xl font-bold text-primary mb-3 font-headline">Angaben gemäß § 5 TMG</h2>
+    <p>Nurhak Mireh<br/>(Einzelunternehmer)<br/>Stegerwaldring 12<br/>22119 Hamburg</p>
+</section>
+
+<section>
+    <h2 class="text-xl font-bold text-primary mb-3 font-headline">Kontakt</h2>
+    <p>
+        Telefon: <a href="tel:+494080004222" class="text-secondary hover:underline">+49 (0) 40 800 04 222</a><br/>
+        Mobil: <a href="tel:+491739990555" class="text-secondary hover:underline">+49 (0) 173 999 05 55</a><br/>
+        E-Mail: <a href="mailto:info@hanse-nord-svb.de" class="text-secondary hover:underline">info@hanse-nord-svb.de</a>
+    </p>
+</section>
+
+<section>
+    <h2 class="text-xl font-bold text-primary mb-3 font-headline">Umsatzsteuer-ID</h2>
+    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br/><strong>DE333191435</strong></p>
+</section>
+
+<section>
+    <h2 class="text-xl font-bold text-primary mb-3 font-headline">Berufsbezeichnung und berufsrechtliche Regelungen</h2>
+    <p>Berufsbezeichnung: Sachverständiger</p>
+</section>
+
+<section>
+    <h2 class="text-xl font-bold text-primary mb-3 font-headline">EU-Streitschlichtung</h2>
+    <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:<br/>
+    <a href="https://ec.europa.eu/consumers/odr" target="_blank" class="text-secondary hover:underline">https://ec.europa.eu/consumers/odr</a>.</p>
+    <p class="mt-2">Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
+</section>
+
+<section>
+    <h2 class="text-xl font-bold text-primary mb-3 font-headline">Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+    <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+</section>
+
+<section class="pt-6 border-t border-outline-variant/30">
+    <p class="text-on-surface-variant text-sm">Quelle: <a href="https://www.e-recht24.de" target="_blank" class="text-secondary hover:underline">https://www.e-recht24.de</a></p>
+</section>
+
+</div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-8 bg-primary-container">
+<div class="max-w-7xl mx-auto px-8 text-center">
+    <p class="text-outline-variant text-sm">© 2026 Hanse Nord Sachverständigenbüro. Alle Rechte vorbehalten.</p>
+</div>
+</footer>
+
+</body>
+</html>
