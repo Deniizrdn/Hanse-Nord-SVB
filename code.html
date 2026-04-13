@@ -5,7 +5,11 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link rel="preload" as="image" href="hero.jpg"/>
+<link rel="preload" as="image" href="logo.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="dns-prefetch" href="https://cdn.tailwindcss.com"/>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"/>
 <style>
         html { scroll-behavior: auto; }
         html.smooth-scroll { scroll-behavior: smooth; }
@@ -592,7 +596,7 @@
 <section class="py-16 md:py-24 px-4 sm:px-8 max-w-7xl mx-auto" id="über-uns">
 <div class="grid md:grid-cols-2 gap-10 md:gap-20 items-center">
 <div class="relative reveal-left">
-<img alt="Hanse Nord Sachverständigenbüro" class="rounded-2xl md:rounded-[2.5rem] shadow-2xl h-[300px] sm:h-[450px] md:h-[600px] w-full object-cover" src="about.jpg" style=""/>
+<img alt="Hanse Nord Sachverständigenbüro" class="rounded-2xl md:rounded-[2.5rem] shadow-2xl h-[300px] sm:h-[450px] md:h-[600px] w-full object-cover" src="about.jpg" loading="lazy" style=""/>
 </div>
 <div class="space-y-8 reveal-right">
 <h2 class="text-2xl sm:text-4xl md:text-5xl font-black font-headline text-primary leading-tight tracking-tight" style="">Warum Hanse Nord?</h2>
