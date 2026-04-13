@@ -305,8 +305,8 @@
 </div>
 </nav>
 <!-- Mobile Menu: Backdrop + Slide-in Panel -->
-<div id="mobileMenuBackdrop" class="mobile-menu-backdrop md:hidden fixed inset-0 bg-black/40 z-40"></div>
-<div id="mobileMenu" class="mobile-menu-panel md:hidden fixed top-0 left-0 h-full w-[280px] bg-white z-50 shadow-2xl flex flex-col pt-24 px-8 pb-8">
+<div id="mobileMenuBackdrop" class="mobile-menu-backdrop md:hidden fixed inset-0 bg-black/50 z-[998]"></div>
+<div id="mobileMenu" class="mobile-menu-panel md:hidden fixed top-0 left-0 h-full w-[280px] bg-white z-[999] shadow-2xl flex flex-col pt-24 px-8 pb-8 overflow-y-auto">
     <a class="mobile-menu-link py-4 border-b border-outline-variant/20 font-headline font-bold text-lg text-on-surface hover:text-secondary transition-colors flex items-center gap-3" href="#leistungen">
         <span class="material-symbols-outlined text-secondary">handyman</span> Leistungen
     </a>
@@ -524,41 +524,53 @@
 <p class="text-on-surface-variant px-4" style="">Versand an die Versicherung – Sie lehnen sich entspannt zurück.</p>
 </div>
 </div>
-<!-- Mobile: Single column, sticky card-style steps with overlap animation -->
-<div class="flex flex-col md:hidden" style="gap: 60px; padding-bottom: 40px;">
-<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
-    <div class="flex items-start gap-5">
-        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">01</div>
-        <div>
-            <h4 class="text-xl font-bold text-primary font-headline mb-1">Anrufen</h4>
-            <p class="text-on-surface-variant text-sm">Kurzes Telefonat zur ersten Einschätzung des Schadens.</p>
+<!-- Mobile: Single column with connecting line -->
+<div class="relative flex flex-col md:hidden" style="gap: 0; padding-bottom: 40px;">
+<!-- Vertical connecting line -->
+<div class="absolute left-[2.5rem] top-[2.5rem] bottom-[2.5rem] w-[3px] bg-outline-variant/20 z-0"></div>
+<div class="absolute left-[2.5rem] top-[2.5rem] w-[3px] bg-secondary z-[1] mobile-progress-line" style="height: 0; transition: height 0.6s ease;"></div>
+
+<div class="process-step-mobile relative z-10 mb-10">
+    <div class="bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+        <div class="flex items-start gap-5">
+            <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">01</div>
+            <div>
+                <h4 class="text-xl font-bold text-primary font-headline mb-1">Anrufen</h4>
+                <p class="text-on-surface-variant text-sm">Kurzes Telefonat zur ersten Einschätzung des Schadens.</p>
+            </div>
         </div>
     </div>
 </div>
-<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
-    <div class="flex items-start gap-5">
-        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">02</div>
-        <div>
-            <h4 class="text-xl font-bold text-primary font-headline mb-1">Terminvereinbarung</h4>
-            <p class="text-on-surface-variant text-sm">Wir vereinbaren einen Termin und nehmen den Schaden penibel auf.</p>
+<div class="process-step-mobile relative z-10 mb-10">
+    <div class="bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+        <div class="flex items-start gap-5">
+            <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">02</div>
+            <div>
+                <h4 class="text-xl font-bold text-primary font-headline mb-1">Terminvereinbarung</h4>
+                <p class="text-on-surface-variant text-sm">Wir vereinbaren einen Termin und nehmen den Schaden penibel auf.</p>
+            </div>
         </div>
     </div>
 </div>
-<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
-    <div class="flex items-start gap-5">
-        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">03</div>
-        <div>
-            <h4 class="text-xl font-bold text-primary font-headline mb-1">Erstellung</h4>
-            <p class="text-on-surface-variant text-sm">Binnen 24-48 Stunden ist Ihr professionelles Gutachten fertig.</p>
+<div class="process-step-mobile relative z-10 mb-10">
+    <div class="bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+        <div class="flex items-start gap-5">
+            <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">03</div>
+            <div>
+                <h4 class="text-xl font-bold text-primary font-headline mb-1">Erstellung</h4>
+                <p class="text-on-surface-variant text-sm">Binnen 24-48 Stunden ist Ihr professionelles Gutachten fertig.</p>
+            </div>
         </div>
     </div>
 </div>
-<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
-    <div class="flex items-start gap-5">
-        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">04</div>
-        <div>
-            <h4 class="text-xl font-bold text-primary font-headline mb-1">Regulierung</h4>
-            <p class="text-on-surface-variant text-sm">Versand an die Versicherung – Sie lehnen sich entspannt zurück.</p>
+<div class="process-step-mobile relative z-10">
+    <div class="bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+        <div class="flex items-start gap-5">
+            <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">04</div>
+            <div>
+                <h4 class="text-xl font-bold text-primary font-headline mb-1">Regulierung</h4>
+                <p class="text-on-surface-variant text-sm">Versand an die Versicherung – Sie lehnen sich entspannt zurück.</p>
+            </div>
         </div>
     </div>
 </div>
@@ -739,7 +751,7 @@
 </div>
 <div>
 <h4 class="font-bold text-primary" style="">Adresse</h4>
-<a href="https://maps.google.com/?q=Stegerwaldring+12,+22119+Hamburg" target="_blank" class="text-on-surface-variant hover:text-secondary transition-colors underline-offset-2 hover:underline" style="">Stegerwaldring 12, 22119 Hamburg</a>
+<a href="https://maps.apple.com/?address=Stegerwaldring+12,+22119+Hamburg" target="_blank" class="text-on-surface-variant hover:text-secondary transition-colors underline-offset-2 hover:underline" style="">Stegerwaldring 12, 22119 Hamburg</a>
 </div>
 </div>
 <div class="flex gap-6">
@@ -852,7 +864,7 @@ document.getElementById('kontaktForm').addEventListener('submit', function(e) {
 <ul class="space-y-4 text-outline-variant text-sm">
 <li class="flex items-center gap-3" style=""><span class="material-symbols-outlined text-secondary-container" data-icon="phone" style="">phone</span><a href="tel:01739990555" class="hover:text-white transition-colors">0173 999 05 55</a></li>
 <li class="flex items-center gap-3" style=""><span class="material-symbols-outlined text-secondary-container" data-icon="mail" style="">mail</span><a href="mailto:info@hanse-nord-svb.de" class="hover:text-white transition-colors">info@hanse-nord-svb.de</a></li>
-<li class="flex items-center gap-3" style=""><span class="material-symbols-outlined text-secondary-container" data-icon="map" style="">map</span><a href="https://maps.google.com/?q=Stegerwaldring+12,+22119+Hamburg" target="_blank" class="hover:text-white transition-colors">Hamburg, Deutschland</a></li>
+<li class="flex items-center gap-3" style=""><span class="material-symbols-outlined text-secondary-container" data-icon="map" style="">map</span><a href="https://maps.apple.com/?address=Stegerwaldring+12,+22119+Hamburg" target="_blank" class="hover:text-white transition-colors">Hamburg, Deutschland</a></li>
 </ul>
 </div>
 </div>
@@ -992,17 +1004,28 @@ window.addEventListener('scroll', () => {
     });
 })();
 
-// ── Mobile Process Steps Observer ──
-const mobileStepObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, { threshold: 0.3, rootMargin: '0px 0px -60px 0px' });
+// ── Mobile Process Steps Observer + Progress Line ──
+(function() {
+    const steps = document.querySelectorAll('.process-step-mobile');
+    const progressLine = document.querySelector('.mobile-progress-line');
+    if (!steps.length || !progressLine) return;
 
-document.querySelectorAll('.process-step-mobile').forEach(el => {
-    mobileStepObserver.observe(el);
-});
+    var stepsVisible = 0;
+
+    const mobileStepObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Count visible steps and update progress line
+                stepsVisible = 0;
+                steps.forEach(function(s) { if (s.classList.contains('visible')) stepsVisible++; });
+                var percent = stepsVisible <= 1 ? 0 : ((stepsVisible - 1) / (steps.length - 1)) * 100;
+                progressLine.style.height = percent + '%';
+            }
+        });
+    }, { threshold: 0.3, rootMargin: '0px 0px -60px 0px' });
+
+    steps.forEach(function(el) { mobileStepObserver.observe(el); });
+})();
 </script>
 </body></html>
