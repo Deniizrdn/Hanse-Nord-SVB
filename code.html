@@ -64,35 +64,42 @@
         .stagger > *:nth-child(4) { transition-delay: 360ms; }
 
         /* ── Mobile Menu ── */
-        .mobile-menu {
+        .mobile-menu-backdrop {
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.3s ease;
         }
-        .mobile-menu.open {
+        .mobile-menu-backdrop.open {
             opacity: 1;
             pointer-events: auto;
         }
+        .mobile-menu-panel {
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-menu-panel.open {
+            transform: translateX(0);
+        }
         .mobile-menu-link {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: translateX(-30px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
         }
-        .mobile-menu.open .mobile-menu-link:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
-        .mobile-menu.open .mobile-menu-link:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
-        .mobile-menu.open .mobile-menu-link:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-        .mobile-menu.open .mobile-menu-link:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
-        .mobile-menu.open .mobile-menu-link:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-        .mobile-menu.open div { opacity: 0; animation: fadeInUp 0.4s 0.4s forwards; }
+        .mobile-menu-panel.open .mobile-menu-link:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.15s; }
+        .mobile-menu-panel.open .mobile-menu-link:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+        .mobile-menu-panel.open .mobile-menu-link:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.25s; }
+        .mobile-menu-panel.open .mobile-menu-link:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+        .mobile-menu-panel.open .mobile-menu-link:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 0.35s; }
+        .mobile-menu-panel.open .mobile-menu-cta { opacity: 0; animation: slideInLeft 0.4s 0.45s forwards; }
 
         /* Hamburger to X animation */
         .menu-open .hamburger-line:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
         .menu-open .hamburger-line:nth-child(2) { opacity: 0; }
         .menu-open .hamburger-line:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         /* ── Mobile Process Steps ── */
@@ -281,7 +288,7 @@
 </button>
 <!-- Logo: centered on mobile, left on desktop -->
 <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 flex items-center z-10">
-<img alt="Hanse Nord Logo" class="w-auto object-contain" src="logo.png" style="height:64px;" /><span class="ml-3 sm:ml-4 font-headline font-black text-primary text-sm sm:text-lg hidden md:block">Hanse Nord <span class="text-secondary">Sachverständigen Büro</span></span>
+<img alt="Hanse Nord Logo" class="w-auto object-contain" src="logo.png" style="height:80px;" /><span class="ml-3 sm:ml-4 font-headline font-black text-primary text-sm sm:text-lg hidden md:block">Hanse Nord <span class="text-secondary">Sachverständigen Büro</span></span>
 </div>
 <!-- Desktop nav -->
 <div class="hidden md:flex items-center gap-8 ml-auto">
@@ -297,15 +304,26 @@
             </a>
 </div>
 </nav>
-<!-- Mobile Menu Overlay -->
-<div id="mobileMenu" class="mobile-menu md:hidden fixed inset-0 bg-surface/95 backdrop-blur-2xl z-40 flex flex-col items-center justify-center gap-6">
-    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#leistungen">Leistungen</a>
-    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#über-uns">Über uns</a>
-    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#ablauf">Ablauf</a>
-    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#faq">FAQ</a>
-    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#kontakt">Kontakt</a>
-    <div class="mt-6 pt-6 border-t border-outline-variant/30">
-        <a href="tel:01739990555" class="bg-gradient-to-r from-secondary to-secondary-container text-white px-10 py-4 rounded-xl font-bold text-lg shadow-xl inline-flex items-center gap-3">
+<!-- Mobile Menu: Backdrop + Slide-in Panel -->
+<div id="mobileMenuBackdrop" class="mobile-menu-backdrop md:hidden fixed inset-0 bg-black/40 z-40"></div>
+<div id="mobileMenu" class="mobile-menu-panel md:hidden fixed top-0 left-0 h-full w-[280px] bg-white z-50 shadow-2xl flex flex-col pt-24 px-8 pb-8">
+    <a class="mobile-menu-link py-4 border-b border-outline-variant/20 font-headline font-bold text-lg text-on-surface hover:text-secondary transition-colors flex items-center gap-3" href="#leistungen">
+        <span class="material-symbols-outlined text-secondary">handyman</span> Leistungen
+    </a>
+    <a class="mobile-menu-link py-4 border-b border-outline-variant/20 font-headline font-bold text-lg text-on-surface hover:text-secondary transition-colors flex items-center gap-3" href="#über-uns">
+        <span class="material-symbols-outlined text-secondary">info</span> Über uns
+    </a>
+    <a class="mobile-menu-link py-4 border-b border-outline-variant/20 font-headline font-bold text-lg text-on-surface hover:text-secondary transition-colors flex items-center gap-3" href="#ablauf">
+        <span class="material-symbols-outlined text-secondary">route</span> Ablauf
+    </a>
+    <a class="mobile-menu-link py-4 border-b border-outline-variant/20 font-headline font-bold text-lg text-on-surface hover:text-secondary transition-colors flex items-center gap-3" href="#faq">
+        <span class="material-symbols-outlined text-secondary">help</span> FAQ
+    </a>
+    <a class="mobile-menu-link py-4 font-headline font-bold text-lg text-on-surface hover:text-secondary transition-colors flex items-center gap-3" href="#kontakt">
+        <span class="material-symbols-outlined text-secondary">mail</span> Kontakt
+    </a>
+    <div class="mobile-menu-cta mt-auto pt-6 border-t border-outline-variant/20">
+        <a href="tel:01739990555" class="bg-gradient-to-r from-secondary to-secondary-container text-white w-full py-4 rounded-xl font-bold text-base shadow-xl flex items-center justify-center gap-3">
             <span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>call</span> Jetzt anrufen
         </a>
     </div>
@@ -940,28 +958,37 @@ window.addEventListener('scroll', () => {
 (function() {
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
-    if (!menuToggle || !mobileMenu) return;
+    const backdrop = document.getElementById('mobileMenuBackdrop');
+    if (!menuToggle || !mobileMenu || !backdrop) return;
+
+    function openMenu() {
+        mobileMenu.classList.add('open');
+        backdrop.classList.add('open');
+        menuToggle.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        mobileMenu.classList.remove('open');
+        backdrop.classList.remove('open');
+        menuToggle.classList.remove('menu-open');
+        document.body.style.overflow = '';
+    }
 
     menuToggle.addEventListener('click', function() {
-        const isOpen = mobileMenu.classList.contains('open');
-        if (isOpen) {
-            mobileMenu.classList.remove('open');
-            menuToggle.classList.remove('menu-open');
-            document.body.style.overflow = '';
+        if (mobileMenu.classList.contains('open')) {
+            closeMenu();
         } else {
-            mobileMenu.classList.add('open');
-            menuToggle.classList.add('menu-open');
-            document.body.style.overflow = 'hidden';
+            openMenu();
         }
     });
 
+    // Close menu when clicking backdrop
+    backdrop.addEventListener('click', closeMenu);
+
     // Close menu when clicking a link
     mobileMenu.querySelectorAll('a').forEach(function(link) {
-        link.addEventListener('click', function() {
-            mobileMenu.classList.remove('open');
-            menuToggle.classList.remove('menu-open');
-            document.body.style.overflow = '';
-        });
+        link.addEventListener('click', closeMenu);
     });
 })();
 
