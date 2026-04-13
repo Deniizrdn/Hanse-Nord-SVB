@@ -63,6 +63,58 @@
         .stagger > *:nth-child(3) { transition-delay: 240ms; }
         .stagger > *:nth-child(4) { transition-delay: 360ms; }
 
+        /* ── Mobile Menu ── */
+        .mobile-menu {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .mobile-menu-link {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .mobile-menu.open .mobile-menu-link:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+        .mobile-menu.open .mobile-menu-link:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
+        .mobile-menu.open .mobile-menu-link:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+        .mobile-menu.open .mobile-menu-link:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
+        .mobile-menu.open .mobile-menu-link:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+        .mobile-menu.open div { opacity: 0; animation: fadeInUp 0.4s 0.4s forwards; }
+
+        /* Hamburger to X animation */
+        .menu-open .hamburger-line:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .menu-open .hamburger-line:nth-child(2) { opacity: 0; }
+        .menu-open .hamburger-line:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Mobile Process Steps ── */
+        @media (max-width: 767px) {
+            .process-step-mobile {
+                opacity: 0;
+                transform: translateY(60px) scale(0.92);
+                transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+                position: sticky;
+                top: 100px;
+                z-index: 1;
+            }
+            .process-step-mobile:nth-child(1) { z-index: 4; }
+            .process-step-mobile:nth-child(2) { z-index: 3; }
+            .process-step-mobile:nth-child(3) { z-index: 2; }
+            .process-step-mobile:nth-child(4) { z-index: 1; }
+            .process-step-mobile.visible {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         /* ── Typewriter cursor blink ── */
         @keyframes blink {
             0%, 100% { opacity: 1; }
@@ -140,9 +192,11 @@
         /* ── Navbar shrink on scroll ── */
         header { transition: all 0.3s ease; }
         header.scrolled { box-shadow: 0 4px 30px rgba(0, 8, 30, 0.08); }
-        header.scrolled nav { height: 3.5rem !important; }
+        header.scrolled nav { height: 4rem !important; }
+        header.scrolled nav img { height: 48px !important; }
         @media (min-width: 640px) {
-            header.scrolled nav { height: 4rem !important; }
+            header.scrolled nav { height: 4.5rem !important; }
+            header.scrolled nav img { height: 56px !important; }
         }
     </style>
 <script id="tailwind-config">
@@ -218,24 +272,44 @@
 <body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
 <!-- Header Section -->
 <header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-xl shadow-sm dark:shadow-none">
-<nav class="flex justify-between items-center px-4 sm:px-8 py-0 max-w-7xl mx-auto h-20 sm:h-24">
-<div class="flex items-center h-full">
-<img alt="Hanse Nord Logo" class="w-auto object-contain" src="logo.png" style="height:70px; max-height:70px;"/><span class="ml-3 sm:ml-4 font-headline font-black text-primary text-sm sm:text-lg hidden sm:block">Hanse Nord <span class="text-secondary">Sachverständigen Büro</span></span>
+<nav class="relative flex items-center px-4 sm:px-8 py-0 max-w-7xl mx-auto h-20 sm:h-24">
+<!-- Mobile: Hamburger left -->
+<button id="menuToggle" class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 z-50 flex-shrink-0" aria-label="Menü">
+    <span class="hamburger-line w-6 h-0.5 bg-primary rounded-full transition-all duration-300"></span>
+    <span class="hamburger-line w-6 h-0.5 bg-primary rounded-full transition-all duration-300"></span>
+    <span class="hamburger-line w-6 h-0.5 bg-primary rounded-full transition-all duration-300"></span>
+</button>
+<!-- Logo: centered on mobile, left on desktop -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 flex items-center z-10">
+<img alt="Hanse Nord Logo" class="w-auto object-contain" src="logo.png" style="height:64px;" /><span class="ml-3 sm:ml-4 font-headline font-black text-primary text-sm sm:text-lg hidden md:block">Hanse Nord <span class="text-secondary">Sachverständigen Büro</span></span>
 </div>
-<div class="hidden md:flex items-center gap-8">
+<!-- Desktop nav -->
+<div class="hidden md:flex items-center gap-8 ml-auto">
 <a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#leistungen" style="">Leistungen</a>
 <a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#über-uns" style="">Über uns</a>
 <a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#ablauf" style="">Ablauf</a>
 <a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#faq" style="">FAQ</a>
 <a class="font-manrope font-bold tracking-tight text-on-surface dark:text-on-surface-variant hover:text-secondary-container transition-colors duration-300" href="#kontakt" style="">Kontakt</a>
 </div>
-<div class="flex items-center gap-4">
-<a class="hidden lg:block font-manrope font-bold text-primary" href="tel:01739990555" style="">0173 999 05 55</a>
+<div class="flex items-center gap-4 ml-auto md:ml-4 flex-shrink-0">
 <a href="tel:01739990555" class="bg-gradient-to-r from-secondary to-secondary-container text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg font-bold text-sm sm:text-base shadow-lg shadow-secondary/20 hover:scale-105 active:scale-95 transition-all inline-block" style="">
                 Soforthilfe
             </a>
 </div>
 </nav>
+<!-- Mobile Menu Overlay -->
+<div id="mobileMenu" class="mobile-menu md:hidden fixed inset-0 bg-surface/95 backdrop-blur-2xl z-40 flex flex-col items-center justify-center gap-6">
+    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#leistungen">Leistungen</a>
+    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#über-uns">Über uns</a>
+    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#ablauf">Ablauf</a>
+    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#faq">FAQ</a>
+    <a class="mobile-menu-link font-headline font-black text-2xl text-primary hover:text-secondary transition-colors" href="#kontakt">Kontakt</a>
+    <div class="mt-6 pt-6 border-t border-outline-variant/30">
+        <a href="tel:01739990555" class="bg-gradient-to-r from-secondary to-secondary-container text-white px-10 py-4 rounded-xl font-bold text-lg shadow-xl inline-flex items-center gap-3">
+            <span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>call</span> Jetzt anrufen
+        </a>
+    </div>
+</div>
 </header>
 <main class="pt-20 sm:pt-24">
 <!-- Hero Section -->
@@ -244,7 +318,7 @@
 <div class="space-y-8">
 <div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full">
 <span class="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
-<span class="text-xs font-bold uppercase tracking-widest font-label text-on-surface-variant" style="">24/7 Notfall-Service Hamburg</span>
+<span class="text-xs font-bold uppercase tracking-widest font-label text-on-surface-variant" style="">24/7 Service Hamburg</span>
 </div>
 <h1 class="text-3xl sm:text-5xl md:text-6xl font-black font-headline text-primary leading-[1.1] tracking-tight" style="">
                     Unfall gehabt in Hamburg? <br/>
@@ -262,18 +336,39 @@
                         Schaden online melden
                     </a>
 </div>
-<div class="flex flex-wrap gap-6 pt-4 border-t border-outline-variant/30">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary" data-icon="star" style='font-variation-settings: "FILL" 1;'>star</span>
-<span class="font-bold" style="">4,9/5 Google</span>
+<div class="pt-4 border-t border-outline-variant/30">
+<div class="hidden sm:flex flex-wrap gap-6">
+    <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary" data-icon="star" style='font-variation-settings: "FILL" 1;'>star</span>
+        <span class="font-bold text-base">4,9/5 Google</span>
+    </div>
+    <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary" data-icon="verified" style='font-variation-settings: "FILL" 1;'>verified</span>
+        <span class="font-bold text-base">Kfz-Meister</span>
+    </div>
+    <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary" data-icon="event_available" style='font-variation-settings: "FILL" 1;'>event_available</span>
+        <span class="font-bold text-base">7 Tage erreichbar</span>
+    </div>
 </div>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary" data-icon="verified" style='font-variation-settings: "FILL" 1;'>verified</span>
-<span class="font-bold" style="">Kfz-Meister</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary" data-icon="event_available" style='font-variation-settings: "FILL" 1;'>event_available</span>
-<span class="font-bold" style="">7 Tage erreichbar</span>
+<!-- Mobile: 2 top + 1 centered below -->
+<div class="sm:hidden">
+    <div class="flex justify-center gap-6 mb-3">
+        <div class="flex flex-col items-center gap-1 text-center">
+            <span class="material-symbols-outlined text-secondary text-2xl" data-icon="star" style='font-variation-settings: "FILL" 1;'>star</span>
+            <span class="font-bold text-sm">4,9/5 Google</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 text-center">
+            <span class="material-symbols-outlined text-secondary text-2xl" data-icon="verified" style='font-variation-settings: "FILL" 1;'>verified</span>
+            <span class="font-bold text-sm">Kfz-Meister</span>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        <div class="flex flex-col items-center gap-1 text-center">
+            <span class="material-symbols-outlined text-secondary text-2xl" data-icon="event_available" style='font-variation-settings: "FILL" 1;'>event_available</span>
+            <span class="font-bold text-sm">7 Tage erreichbar</span>
+        </div>
+    </div>
 </div>
 </div>
 </div>
@@ -378,9 +473,10 @@
 <p class="text-on-surface-variant" style="">In nur vier einfachen Schritten zu Ihrer Entschädigung.</p>
 </div>
 <div class="relative">
-<!-- Progress Line -->
+<!-- Progress Line (Desktop only) -->
 <div class="hidden md:block absolute top-10 left-0 w-full h-1 bg-gradient-to-r from-secondary to-secondary-container z-0 progress-line"></div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 relative z-10 stagger">
+<!-- Desktop: 4 columns / Mobile: single column, full-width cards -->
+<div class="hidden md:grid md:grid-cols-4 gap-12 relative z-10 stagger">
 <div class="space-y-6 text-center reveal">
 <div class="relative">
 <div class="w-20 h-20 bg-secondary text-white rounded-full mx-auto flex items-center justify-center text-3xl font-black shadow-xl shadow-secondary/20 border-8 border-surface-container-low transition-all duration-300 cursor-pointer hover:scale-110" style="">01</div>
@@ -410,6 +506,45 @@
 <p class="text-on-surface-variant px-4" style="">Versand an die Versicherung – Sie lehnen sich entspannt zurück.</p>
 </div>
 </div>
+<!-- Mobile: Single column, sticky card-style steps with overlap animation -->
+<div class="flex flex-col md:hidden" style="gap: 60px; padding-bottom: 40px;">
+<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+    <div class="flex items-start gap-5">
+        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">01</div>
+        <div>
+            <h4 class="text-xl font-bold text-primary font-headline mb-1">Anrufen</h4>
+            <p class="text-on-surface-variant text-sm">Kurzes Telefonat zur ersten Einschätzung des Schadens.</p>
+        </div>
+    </div>
+</div>
+<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+    <div class="flex items-start gap-5">
+        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">02</div>
+        <div>
+            <h4 class="text-xl font-bold text-primary font-headline mb-1">Terminvereinbarung</h4>
+            <p class="text-on-surface-variant text-sm">Wir vereinbaren einen Termin und nehmen den Schaden penibel auf.</p>
+        </div>
+    </div>
+</div>
+<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+    <div class="flex items-start gap-5">
+        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">03</div>
+        <div>
+            <h4 class="text-xl font-bold text-primary font-headline mb-1">Erstellung</h4>
+            <p class="text-on-surface-variant text-sm">Binnen 24-48 Stunden ist Ihr professionelles Gutachten fertig.</p>
+        </div>
+    </div>
+</div>
+<div class="process-step-mobile bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
+    <div class="flex items-start gap-5">
+        <div class="w-16 h-16 min-w-[4rem] bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-black shadow-lg shadow-secondary/20">04</div>
+        <div>
+            <h4 class="text-xl font-bold text-primary font-headline mb-1">Regulierung</h4>
+            <p class="text-on-surface-variant text-sm">Versand an die Versicherung – Sie lehnen sich entspannt zurück.</p>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -427,8 +562,14 @@
 <p class="text-on-surface-variant" style="">
                     Unser Büro in Hamburg-Billstedt steht für absolute Transparenz. Wir sorgen dafür, dass Sie nach einem unverschuldeten Unfall nicht auf den Kosten sitzen bleiben und Ihr Schaden fair reguliert wird.
                 </p>
-<div class="grid gap-4 sm:gap-8 py-6 sm:py-8 border-y border-outline-variant/30 grid-cols-3"><div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>419+</div><div class="text-on-surface-variant text-xs font-bold">Erstellte Gutachten</div></div><div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>10+</div><div class="text-on-surface-variant text-xs font-bold">Jahre Erfahrung</div></div><div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>100%</div><div class="text-on-surface-variant text-xs font-bold">Zufriedene Kunden</div></div></div>
-<a href="#kontakt" class="bg-primary text-white px-6 py-3 rounded-xl font-bold inline-flex items-center justify-center gap-2 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 hover:bg-primary/90 transition-all" style="">Jetzt einen Termin vereinbaren <span class="material-symbols-outlined text-xl">calendar_today</span></a>
+<div class="grid gap-4 sm:gap-8 py-6 sm:py-8 border-y border-outline-variant/30 grid-cols-3 text-center">
+    <div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>419+</div><div class="text-on-surface-variant text-xs font-bold">Erstellte Gutachten</div></div>
+    <div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>10+</div><div class="text-on-surface-variant text-xs font-bold">Jahre Erfahrung</div></div>
+    <div><div class="text-xl sm:text-3xl font-black text-primary font-headline counter-glow" data-counter>100%</div><div class="text-on-surface-variant text-xs font-bold">Zufriedene Kunden</div></div>
+</div>
+<div class="flex justify-center md:justify-start">
+    <a href="#kontakt" class="bg-primary text-white px-6 py-3 rounded-xl font-bold inline-flex items-center justify-center gap-2 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 hover:bg-primary/90 transition-all" style="">Jetzt einen Termin vereinbaren <span class="material-symbols-outlined text-xl">calendar_today</span></a>
+</div>
 </div>
 </div>
 </section>
@@ -794,5 +935,47 @@ window.addEventListener('scroll', () => {
         header.classList.remove('scrolled');
     }
 }, { passive: true });
+
+// ── Mobile Menu Toggle ──
+(function() {
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (!menuToggle || !mobileMenu) return;
+
+    menuToggle.addEventListener('click', function() {
+        const isOpen = mobileMenu.classList.contains('open');
+        if (isOpen) {
+            mobileMenu.classList.remove('open');
+            menuToggle.classList.remove('menu-open');
+            document.body.style.overflow = '';
+        } else {
+            mobileMenu.classList.add('open');
+            menuToggle.classList.add('menu-open');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+
+    // Close menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            mobileMenu.classList.remove('open');
+            menuToggle.classList.remove('menu-open');
+            document.body.style.overflow = '';
+        });
+    });
+})();
+
+// ── Mobile Process Steps Observer ──
+const mobileStepObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.3, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.process-step-mobile').forEach(el => {
+    mobileStepObserver.observe(el);
+});
 </script>
 </body></html>
