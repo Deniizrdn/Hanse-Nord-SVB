@@ -531,10 +531,11 @@
 </div>
 </div>
 <!-- Mobile: Single column with connecting line -->
-<div class="relative flex flex-col md:hidden" style="gap: 0; padding-bottom: 40px;">
-<!-- Vertical connecting line -->
-<div class="absolute left-[2.5rem] top-[2.5rem] bottom-[2.5rem] w-[3px] bg-outline-variant/20 z-0"></div>
-<div class="absolute left-[2.5rem] top-[2.5rem] w-[3px] bg-secondary z-[1] mobile-progress-line" style="height: 0; transition: height 0.6s ease;"></div>
+<div id="mobileProcessContainer" class="relative flex flex-col md:hidden" style="gap: 0; padding-bottom: 40px;">
+<!-- Vertical connecting line (background track) -->
+<div id="mobileLineTrack" class="absolute w-[3px] bg-outline-variant/20 z-0"></div>
+<!-- Vertical connecting line (animated fill) -->
+<div id="mobileLineFill" class="absolute w-[3px] bg-secondary z-[1]" style="height: 0;"></div>
 
 <div class="process-step-mobile relative z-10 mb-10">
     <div class="bg-white rounded-2xl p-6 shadow-lg border border-outline-variant/10">
@@ -887,6 +888,14 @@ document.getElementById('kontaktForm').addEventListener('submit', function(e) {
 </div>
 
 <script>
+// ── Scroll to top on page load ──
+window.addEventListener('load', function() {
+    window.scrollTo(0, 0);
+});
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
 // ── Typewriter Effect ──
 (function() {
     var text = 'Wir sind an 7 Tagen die Woche für Sie da.';
@@ -980,7 +989,10 @@ window.addEventListener('scroll', () => {
     const closeBtn = document.getElementById('mobileMenuClose');
     if (!menuToggle || !mobileMenu || !backdrop) return;
 
+    var savedScrollY = 0;
+
     function openMenu() {
+        savedScrollY = window.scrollY;
         mobileMenu.classList.add('open');
         backdrop.classList.add('open');
         menuToggle.classList.add('menu-open');
@@ -992,6 +1004,8 @@ window.addEventListener('scroll', () => {
         backdrop.classList.remove('open');
         menuToggle.classList.remove('menu-open');
         document.body.style.overflow = '';
+        // Zurück zur gleichen Scroll-Position
+        window.scrollTo(0, savedScrollY);
     }
 
     menuToggle.addEventListener('click', function() {
@@ -1008,34 +1022,78 @@ window.addEventListener('scroll', () => {
     // Close menu when clicking backdrop
     backdrop.addEventListener('click', closeMenu);
 
-    // Close menu when clicking a link
-    mobileMenu.querySelectorAll('a').forEach(function(link) {
+    // Close menu when clicking a link (navigates to section)
+    mobileMenu.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        link.addEventListener('click', function() {
+            mobileMenu.classList.remove('open');
+            backdrop.classList.remove('open');
+            menuToggle.classList.remove('menu-open');
+            document.body.style.overflow = '';
+        });
+    });
+    // Close for non-hash links (like phone)
+    mobileMenu.querySelectorAll('a:not([href^="#"])').forEach(function(link) {
         link.addEventListener('click', closeMenu);
     });
 })();
 
-// ── Mobile Process Steps Observer + Progress Line ──
+// ── Mobile Process Steps Observer ──
 (function() {
     const steps = document.querySelectorAll('.process-step-mobile');
-    const progressLine = document.querySelector('.mobile-progress-line');
-    if (!steps.length || !progressLine) return;
-
-    var stepsVisible = 0;
-
-    const mobileStepObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                // Count visible steps and update progress line
-                stepsVisible = 0;
-                steps.forEach(function(s) { if (s.classList.contains('visible')) stepsVisible++; });
-                var percent = stepsVisible <= 1 ? 0 : ((stepsVisible - 1) / (steps.length - 1)) * 100;
-                progressLine.style.height = percent + '%';
-            }
+    const mobileStepObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.3, rootMargin: '0px 0px -60px 0px' });
-
     steps.forEach(function(el) { mobileStepObserver.observe(el); });
+})();
+
+// ── Mobile Progress Line: real-time scroll-driven ──
+(function() {
+    var container = document.getElementById('mobileProcessContainer');
+    var track = document.getElementById('mobileLineTrack');
+    var fill = document.getElementById('mobileLineFill');
+    var steps = container ? container.querySelectorAll('.process-step-mobile') : [];
+    if (!container || !track || !fill || steps.length < 2) return;
+
+    function getCircleCenter(step) {
+        var circle = step.querySelector('.rounded-full');
+        if (!circle) return 0;
+        var rect = circle.getBoundingClientRect();
+        var containerRect = container.getBoundingClientRect();
+        return rect.top - containerRect.top + rect.height / 2;
+    }
+
+    function updateLine() {
+        var firstCenter = getCircleCenter(steps[0]);
+        var lastCenter = getCircleCenter(steps[steps.length - 1]);
+
+        // Position track between first and last circle centers
+        track.style.top = firstCenter + 'px';
+        track.style.left = (steps[0].querySelector('.rounded-full').getBoundingClientRect().left - container.getBoundingClientRect().left + steps[0].querySelector('.rounded-full').offsetWidth / 2 - 1.5) + 'px';
+        track.style.height = (lastCenter - firstCenter) + 'px';
+
+        // Position fill at same left/top
+        fill.style.left = track.style.left;
+        fill.style.top = track.style.top;
+
+        // Calculate scroll progress
+        var containerRect = container.getBoundingClientRect();
+        var viewportMiddle = window.innerHeight * 0.6;
+        var totalHeight = lastCenter - firstCenter;
+
+        // How far has the viewport scrolled through the steps
+        var currentScrollInContainer = viewportMiddle - containerRect.top - firstCenter;
+        var progress = Math.max(0, Math.min(1, currentScrollInContainer / totalHeight));
+
+        fill.style.height = (progress * totalHeight) + 'px';
+    }
+
+    window.addEventListener('scroll', updateLine, { passive: true });
+    window.addEventListener('resize', updateLine);
+    // Initial call after layout settles
+    setTimeout(updateLine, 100);
+    setTimeout(updateLine, 500);
 })();
 </script>
 </body></html>
